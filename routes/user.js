@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const cloudinary = require("cloudinary").v2;
 
-require('dotenv').config()
-
+require("dotenv").config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -12,18 +15,86 @@ cloudinary.config({
 });
 
 router.post("/signup", async (req, res) => {
- try{
-const uploadPhoto=  await cloudinary.uploader.upload(req.files.photo.tempFilePath);
-  console.log(uploadPhoto);
-  
- }
-   catch (err) {
+  try {
+    const user = await User.find({ email: req.body.email });
+    if (user.length > 0) {
+      return res.status(400).json({
+        msg: "email already register",
+      });
+    }
+    const uploadPhoto = await cloudinary.uploader.upload(
+      req.files.image.tempFilePath
+    );
+    // console.log(uploadPhoto);
+
+    const hashCode = await bcrypt.hash(req.body.password, 10);
+    console.log(hashCode);
+
+    const newUser = await new User({
+      _id: new mongoose.Types.ObjectId(),
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: hashCode,
+      imageUrl: uploadPhoto.secure_url,
+      imageId: uploadPhoto.public_id,
+    });
+
+    const dataInsert = await newUser.save();
+    res.status(200).json({
+      message: "User Created Successfully",
+      fullName: dataInsert.fullName,
+      lastName: dataInsert.lastName,
+      email: dataInsert.email,
+      _id: dataInsert.id,
+      imageUrl: dataInsert.imageUrl,
+      imageId: dataInsert.imageId,
+    });
+  } catch (err) {
     console.log("error");
     res.status(400).json({
-      error:err
-    })
-    
+      error: err,
+    });
   }
-}); 
+});
+
+// get
+router.post("/login", async (req, res) => {
+  const user = await User.find({ email: req.body.email });
+  if (user.length == 0) {
+    return res.status(401).json({
+      error: "Email not register...",
+    });
+  }
+  const isMatch = await bcrypt.compare(req.body.password, user[0].password);
+  if (!isMatch) {
+    return res.status(401).json({
+      error: "Invalid password",
+    });
+  }
+  const token = await jwt.sign(
+    {
+      uId: user[0]._id,
+      firstName: user[0].firstName,
+      lastName:user[0].lastName,
+      email:user[0].email,
+      imageId:user[0].imageId,
+      imageUrl:user[0].imageUrl
+    },
+    "secret key",
+    {
+      expiresIn: "365d",
+    }
+  );
+  res.status(200).json({
+    uId: user[0]._id,
+    firstName: user[0].firstName,
+    lastName:user[0].lastName,
+      email:user[0].email,
+      imageId:user[0].imageId,
+      imageUrl:user[0].imageUrl,
+    token: token,
+  });
+});
 
 module.exports = router;
