@@ -51,37 +51,73 @@ router.get("/all-course", checkAuth, async (req, res) => {
     const token = await req.headers.authorization.split(" ")[1];
     const verifyToken = await jwt.verify(token, "secret key");
 
-    const allCourse = await Course.find({uId:verifyToken.uId}).select('_id uId courseName price description startData endData imageUrl imageId');
+    const allCourse = await Course.find({ uId: verifyToken.uId }).select(
+      "_id uId courseName price description startData endData imageUrl imageId"
+    );
     res.status(200).json({
       allCourse: allCourse,
     });
   } catch (err) {
     console.log("error");
     res.status(400).json({
-        error:err
-    })
-    
+      error: err,
+    });
   }
 });
 
 // get one cousrse by Id
 
 router.get("/course-details/:id", checkAuth, async (req, res) => {
-    try {
-      const token = await req.headers.authorization.split(" ")[1];
-      const verifyToken = await jwt.verify(token, "secret key");
-  
-      const allCourse = await Course.findById(req.params.id).select('_id uId courseName price description startData endData imageUrl imageId');
-      res.status(200).json({
-        allCourse: allCourse,
-      });
-    } catch (err) {
-      console.log("error");
-      res.status(400).json({
-          error:err
-      })
-      
-    }
-  });
+  try {
+    const token = await req.headers.authorization.split(" ")[1];
+    const verifyToken = await jwt.verify(token, "secret key");
 
+    const allCourse = await Course.findById(req.params.id).select(
+      "_id uId courseName price description startData endData imageUrl imageId"
+    );
+    res.status(200).json({
+      allCourse: allCourse,
+    });
+  } catch (err) {
+    console.log("error");
+    res.status(400).json({
+      error: err,
+    });
+  }
+});
+
+//   Delete Course
+router.delete('/:id',checkAuth,async(req,res)=>{
+  try{
+
+
+   const token = await req.headers.authorization.split(" ")[1];
+   const verifyToken = await jwt.verify(token, "secret key");
+    // console.log(verifyToken);
+    
+    const course = await Course.find({_id:req.params.id})
+    console.log(course[0]);
+if(course[0].uId !== verifyToken._id){
+    return res.status(500).json({
+        error:"invalid user..."
+    })
+    
+}
+await cloudinary.uploader.destroy(course[0].imageId)
+const deleteData = await Course.findByIdAndDelete(req.params.id)
+res.status(200).json({
+    delete :"deleteData" 
+})
+
+
+  } 
+  catch(err){
+    console.log(err);
+    res.status(500).json({
+      error:err
+    })
+    
+  }
+ 
+})
 module.exports = router;
