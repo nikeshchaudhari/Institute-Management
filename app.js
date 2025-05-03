@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express();
 const userRoute =require('./routes/user');
-const batchRoute = require('./routes/batch');
+const courseRoute = require('./routes/courses');
 const stdRoute = require('./routes/student')
 const feeRoute=require('./routes/fee')
 const mongoose = require('mongoose')
@@ -32,7 +32,7 @@ app.use(fileUpload({
     // tempFileDir:'/tmp/'
 }))
 app.use('/user',userRoute)
-app.use('/batch',batchRoute)
+app.use('/course',courseRoute)
 app.use('/student',stdRoute)
 app.use('/pay',feeRoute)
 
