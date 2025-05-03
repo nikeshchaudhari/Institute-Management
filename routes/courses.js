@@ -97,7 +97,7 @@ router.delete('/:id',checkAuth,async(req,res)=>{
     
     const course = await Course.find({_id:req.params.id})
     console.log(course[0]);
-if(course[0].uId !== verifyToken._id){
+if(course[0].uId != verifyToken.uId){
     return res.status(500).json({
         error:"invalid user..."
     })
