@@ -15,35 +15,52 @@ cloudinary.config({
 router.post("/add-course", checkAuth, async (req, res) => {
   try {
     const token = await req.headers.authorization.split(" ")[1];
-    const verifyToken = await jwt.verify(token,'secret key')
+    const verifyToken = await jwt.verify(token, "secret key");
     const uploadPhoto = await cloudinary.uploader.upload(
       req.files.image.tempFilePath
     );
     console.log(uploadPhoto);
-    
+
     const courseInsert = await new Course({
       _id: new mongoose.Types.ObjectId(),
       courseName: req.body.courseName,
       price: req.body.price,
       description: req.body.description,
-      startDate:req.body.startDate,
+      startDate: req.body.startDate,
       endDate: req.body.endDate,
-      uId:verifyToken.uId,
-      imageId:uploadPhoto.public_id,  
-      imageUrl: uploadPhoto.secure_url
+      uId: verifyToken.uId,
+      imageId: uploadPhoto.public_id,
+      imageUrl: uploadPhoto.secure_url,
     });
-const data = await courseInsert.save()
-console.log(data);
-res.status(200).json({
-    data:data
-})
+    const data = await courseInsert.save();
+    console.log(data);
+    res.status(200).json({
+      data: data,
+    });
+  } catch (err) {
+    console.log("error");
+    res.status(400).json({
+      error: err,
+    });
+  }
+});
+// get all course any user
 
+router.get("/all-course", checkAuth, async (req, res) => {
+  try {
+    const token = await req.headers.authorization.split(" ")[1];
+    const verifyToken = await jwt.verify(token, "secret key");
+
+    const allCourse = await Course.find();
+    res.status(200).json({
+      allCourse: allCourse,
+    });
   } catch (err) {
     console.log("error");
     res.status(400).json({
         error:err
-    });
+    })
+    
   }
 });
-
 module.exports = router;
