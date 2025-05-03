@@ -51,7 +51,7 @@ router.get("/all-course", checkAuth, async (req, res) => {
     const token = await req.headers.authorization.split(" ")[1];
     const verifyToken = await jwt.verify(token, "secret key");
 
-    const allCourse = await Course.find();
+    const allCourse = await Course.find({uId:verifyToken.uId}).select('_id uId courseName price description startData endData imageUrl imageId');
     res.status(200).json({
       allCourse: allCourse,
     });
@@ -63,4 +63,25 @@ router.get("/all-course", checkAuth, async (req, res) => {
     
   }
 });
+
+// get one cousrse by Id
+
+router.get("/course-details/:id", checkAuth, async (req, res) => {
+    try {
+      const token = await req.headers.authorization.split(" ")[1];
+      const verifyToken = await jwt.verify(token, "secret key");
+  
+      const allCourse = await Course.findById(req.params.id).select('_id uId courseName price description startData endData imageUrl imageId');
+      res.status(200).json({
+        allCourse: allCourse,
+      });
+    } catch (err) {
+      console.log("error");
+      res.status(400).json({
+          error:err
+      })
+      
+    }
+  });
+
 module.exports = router;
