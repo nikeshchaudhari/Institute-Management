@@ -135,7 +135,7 @@ router.put("/:id", checkAuth, async (req, res) => {
     }
     const updateData = await Course.findByIdAndUpdate(req.params.id,upDate,{new:true})
     res.status(200).json({
-      elseDataUpdate:updateData
+      elseupdate:updateData
     })
     // console.log("File is not ready");
 
