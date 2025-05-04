@@ -33,7 +33,7 @@ router.post("/add-course", checkAuth, async (req, res) => {
       imageUrl: uploadPhoto.secure_url,
     });
     const data = await courseInsert.save();
-    console.log(data);
+    // console.log(data);
     res.status(200).json({
       data: data,
     });
@@ -86,38 +86,97 @@ router.get("/course-details/:id", checkAuth, async (req, res) => {
   }
 });
 
-//   Delete Course
-router.delete('/:id',checkAuth,async(req,res)=>{
-  try{
+// Update Course
+router.put("/:id", checkAuth, async (req, res) => {
+ try{
+  const token = await req.headers.authorization.split(" ")[1];
+  const verifyToken = await jwt.verify(token, "secret key");
+  //  console.log(verifyToken);
 
-
-   const token = await req.headers.authorization.split(" ")[1];
-   const verifyToken = await jwt.verify(token, "secret key");
-    // console.log(verifyToken);
-    
-    const course = await Course.find({_id:req.params.id})
-    console.log(course[0]);
-if(course[0].uId != verifyToken.uId){
+  const updateCourse = await Course.find({ _id: req.params.id });
+  // console.log(updateCourse[0]);
+  if (updateCourse[0].uId != verifyToken.uId) {
     return res.status(500).json({
-        error:"invalid user..."
+      error: "Invalid user...",
+    });
+  }
+  if (req.files) {
+    await cloudinary.uploader.destroy(updateCourse[0].imageId);
+    const uploadImage = await cloudinary.uploader.upload(
+      req.files.image.tempFilePath
+    );
+    // console.log(uploadImage);
+
+    const upDate = {
+      courseName:req.body.courseName,
+      price:req.body.price,
+      description:req.body.description,
+      startDate:req.body.startDate,
+      endDate:req.body.endDate,
+      // imageId:uploadImage.imageId,
+      // imageUrl:uploadImage.imageUrl
+      
+    }
+    const updateData = await Course.findByIdAndUpdate(req.params.id,upDate,{new:true})
+    res.status(200).json({
+      DataUpdate:updateData
     })
-    
-}
-await cloudinary.uploader.destroy(course[0].imageId)
-const deleteData = await Course.findByIdAndDelete(req.params.id)
-res.status(200).json({
-    delete :"deleteData" 
-})
+
+  // console.log("Files is ready");
+  
+  }
+  else{
+    const upDate ={
+      courseName:req.body.courseName,
+      price:req.body.price,
+      description:req.body.description,
+      startDate:req.body.startDate,
+      endDate:req.body.endDate
+    }
+    const updateData = await Course.findByIdAndUpdate(req.params.id,upDate,{new:true})
+    res.status(200).json({
+      elseDataUpdate:updateData
+    })
+    // console.log("File is not ready");
+
+  }
 
 
-  } 
-  catch(err){
+
+ }
+ catch(err){
+  console.log(err);
+  res.status(400).json({
+    error:err
+  })
+  
+ }
+});
+
+//   Delete Course
+router.delete("/:id", checkAuth, async (req, res) => {
+  try {
+    const token = await req.headers.authorization.split(" ")[1];
+    const verifyToken = await jwt.verify(token, "secret key");
+    // console.log(verifyToken);
+
+    const course = await Course.find({ _id: req.params.id });
+    console.log(course[0]);
+    if (course[0].uId != verifyToken.uId) {
+      return res.status(500).json({
+        error: "invalid user...",
+      });
+    }
+    await cloudinary.uploader.destroy(course[0].imageId);
+    const deleteData = await Course.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      delete: "deleteData",
+    });
+  } catch (err) {
     console.log(err);
     res.status(500).json({
-      error:err
-    })
-    
+      error: err,
+    });
   }
- 
-})
+});
 module.exports = router;
