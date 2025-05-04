@@ -76,10 +76,10 @@ router.post("/login", async (req, res) => {
     {
       uId: user[0]._id,
       firstName: user[0].firstName,
-      lastName:user[0].lastName,
-      email:user[0].email,
-      imageId:user[0].imageId,
-      imageUrl:user[0].imageUrl
+      lastName: user[0].lastName,
+      email: user[0].email,
+      imageId: user[0].imageId,
+      imageUrl: user[0].imageUrl,
     },
     "secret key",
     {
@@ -89,10 +89,10 @@ router.post("/login", async (req, res) => {
   res.status(200).json({
     uId: user[0]._id,
     firstName: user[0].firstName,
-    lastName:user[0].lastName,
-      email:user[0].email,
-      imageId:user[0].imageId,
-      imageUrl:user[0].imageUrl,
+    lastName: user[0].lastName,
+    email: user[0].email,
+    imageId: user[0].imageId,
+    imageUrl: user[0].imageUrl,
     token: token,
   });
 });
