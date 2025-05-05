@@ -1,4 +1,6 @@
 import React from "react";
+
+import { ToastContainer, toast } from 'react-toastify';
 import Signup from "./components/Signup";
 import { createBrowserRouter, Route, RouterProvider } from "react-router-dom";
 import Login from "./components/Login";
@@ -14,6 +16,7 @@ const App = () => {
   return (
     <div>
       <RouterProvider router={router}></RouterProvider>
+      <ToastContainer/>
     </div>
   );
 };
