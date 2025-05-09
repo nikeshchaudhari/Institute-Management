@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import axios from 'axios'
+import axios from "axios";
 
 const AllCourse = () => {
-    const [courseList,setCourseList]= useState([]);
+  const [courseList, setCourseList] = useState([]);
 
   useEffect(() => {
     getCourse();
@@ -16,24 +16,27 @@ const AllCourse = () => {
         },
       })
       .then((res) => {
-        setCourseList(res.data.allCourse)
+        setCourseList(res.data.allCourse);
         console.log(res.data.allCourse);
         // toast.success("All Course");
       })
       .catch((err) => {
         console.log(err);
-        
+
         toast.error("Something is wrong...");
       });
   };
-  return <div>
-   {courseList.map((course)=>(
-    <div key={course._id}>
-{course.courseName}
+  return (
+    <div className="course-wrapper">
+      {courseList.map((course) => (
+        <div className="course-box" key={course._id}>
+          <img className="course-img" src={course.imageUrl} />
+
+          <h4 className="course-name">{course.courseName}</h4>
+          <p className="course-price">Rs. {course.price}</p>
+        </div>
+      ))}
     </div>
-   ))}
-
-
-  </div>;
+  );
 };
 export default AllCourse;
