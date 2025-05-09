@@ -12,9 +12,10 @@ const AddCourse = () => {
   const [image, setImage] = useState(" ");
   const [imageUrl, setImageUrl] = useState(" ");
 
+  const navigate = useNavigate()
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(price,image);
+    // console.log(price,image);
     
     const Data = new FormData();
     Data.append("courseName", courseName);
@@ -36,6 +37,7 @@ const AddCourse = () => {
         console.log(res);
         
         toast.success("Add Course Successfully...")
+        navigate('/dashboard/allcourse')
       })
       .catch(err=>{
         console.log(err);
@@ -49,11 +51,12 @@ const AddCourse = () => {
     setImageUrl(URL.createObjectURL(e.target.files[0]));
   };
 
+
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>
         <h1>Add New Course</h1>
-        <input
+        <input required
           onChange={(e) => {
             setCourseName(e.target.value);
           }}
@@ -61,7 +64,7 @@ const AddCourse = () => {
           type="text"
           placeholder="Course Name"
         />
-        <input
+        <input required
           onChange={(e) => {
             setPrice(e.target.value);
           }}
@@ -69,7 +72,7 @@ const AddCourse = () => {
           type="number"
           placeholder="Price"
         />
-        <input
+        <input required
           onChange={(e) => {
             setDescription(e.target.value);
           }}
@@ -77,7 +80,7 @@ const AddCourse = () => {
           type="text"
           placeholder="Description"
         />
-        <input
+        <input required
           onChange={(e) => {
             setStartDate(e.target.value);
           }}
@@ -85,7 +88,7 @@ const AddCourse = () => {
           type="text"
           placeholder="Start Date (DD-MM-YY)"
         />
-        <input
+        <input required
           onChange={(e) => {
             setEndDate(e.target.value);
           }}
@@ -93,7 +96,7 @@ const AddCourse = () => {
           type="text"
           placeholder="EndDate (DD-MM-YY)"
         />
-        <input
+        <input required
           onChange={fileHandler}
           className="form-input"
           type="file"
