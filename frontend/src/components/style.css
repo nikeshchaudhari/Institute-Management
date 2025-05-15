@@ -94,6 +94,7 @@
   background-color: rgb(99, 91, 91);
   padding: 10px;
   height: 100vh;
+  overflow: hidden;
 }
 .main-container {
   width: 80%;
@@ -152,11 +153,204 @@
   align-items: center;
   flex-direction: row;
   gap: 10px;
-  
 }
 
-.title{
+.title {
   color: white;
   font-size: 15px;
+}
+/* Menu or Navbar */
+.menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.menu-link {
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+  padding: 10px;
+  border-radius: 3px;
+  width: 100%;
+}
+.menu-active-link {
+  color: black;
+  background-color: #ffffff;
+  text-decoration: none;
+  font-size: 17px;
+  padding: 10px;
+  border-radius: 3px;
+  width: 100%;
+}
+.menu-link:hover {
+  background-color: #ffffff;
+  color: black;
+  transition: 0.5;
+}
+
+.menu-link span {
+  margin-right: 10px;
+}
+.menu-active-link span {
+  margin-right: 10px;
+}
+.outlet {
+  padding: 10px;
+  height: 100vh;
+
+
+}
+/* Add Course  */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.form-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(233, 229, 229);
+  outline: none;
+  width: 85%;
+}
+.form button {
+  background-color: blueviolet;
+  padding: 10px;
+  color: white;
+  width: 85%;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+}
+/* All Course */
+.course-box {
+  width: 20%;
+  height: 33vh;
+  /* background-color: red; */
+  text-align: center;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* Green glow */
+  cursor: pointer;
+}
+.course-name {
+  font-size: 20px;
+  font-family: "Courier New", Courier, monospace;
+  margin-top: 10px;
+}
+.course-price {
+  margin-top: 5px;
+}
+.course-img {
+  width: 100%;
+  height: 20vh;
+}
+.course-main {
+  background-color: rgb(255, 255, 225);
+  /* width: 100%; */
+  height: 33vh;
+  box-shadow: 50px 50px 80px rgb(202, 202, 202);
+}
+.course-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 55px;
+  flex-wrap: wrap;
+}
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(233, 229, 229);
+  outline: none;
+  width: 85%;
+}
+/* cours_details image */
+.course-image {
+  width: 300px;
+  height: 28vh;
+  /* box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.7); */
+  margin-top: 10px;
+  margin-left: 20px;
+  background-color: transparent;
+
+  cursor: pointer;
+}
+.course-details {
+  margin-top: 50px;
+}
+.std-list-container {
+  width: 100%;
+  height: 40vh;
+  /* background-color: red; */
+  overflow-y: scroll;
+}
+table {
+  width: 100%;
+  padding: 10px;
+}
+table img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+th,
+td {
+  text-align: left;
+  padding: 10px;
+}
+tr:hover {
+  background-color: rgb(231, 231, 231);
+  cursor: pointer;
+}
+.std-list-wrapper {
+  width: 100%;
+  height: 100vh;
+  /* background-color: red; */
+  overflow-y: scroll;
+}
+.course-description {
+  height: 20vh;
+  width: 100%;
+  overflow: auto;
+}
+.course-description h3{
+  margin-bottom: 10px;
+  text-align: center;
+}
+.course-description-box {
+  width: 30%;
+  /* background-color: red; */
+  margin-left: 200px;
+  text-align: center;
+}
+.primary-btn {
+  background-color: rgb(83, 0, 94);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80px;
+  border: none;
+ 
+}
+.secondary-btn {
+  background-color: rgb(235, 12, 12);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80px;
+  border: none;
+  
+}
+.btn-container {
+  display: flex;
+  gap: 10px;
+  margin: 20px 80px;
   
 }
