@@ -10,7 +10,7 @@ import AllStudent from './components/AllStudent'
 import Home from "./components/Home";
 import AddCourse from "./components/AddCourse";
 import AddStudent from "./components/AddStudent";
-
+import CourseDetail from "./components/CourseDetail"
 import Fee from "./components/Fee";
 import PayHistory from "./components/PayHistory";
 
@@ -27,7 +27,8 @@ const App = () => {
       {path:"addstudent",Component:AddStudent},
       {path:"allstudent",Component:AllStudent},
       {path:"fee",Component:Fee},
-      {path:"paymethistory",Component:PayHistory}
+      {path:"paymethistory",Component:PayHistory},
+      {path:"course-detail/:id",Component:CourseDetail},
      
       
     

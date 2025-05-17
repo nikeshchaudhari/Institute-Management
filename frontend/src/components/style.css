@@ -325,8 +325,8 @@ tr:hover {
 .course-description-box {
   width: 30%;
   /* background-color: red; */
-  margin-left: 200px;
-  text-align: center;
+  /* margin-left: 100px; */
+  /* text-align: center; */
 }
 .primary-btn {
   background-color: rgb(83, 0, 94);

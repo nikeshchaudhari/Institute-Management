@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import "../components/style.css";
 import axios from "axios";
 
 import { toast } from 'react-toastify';
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [fullName, setfullName] = useState("");
@@ -11,6 +12,9 @@ const Signup = () => {
   const [password, setpassword] = useState("");
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(" ");
+
+
+  const navigate = useNavigate();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -25,12 +29,15 @@ const Signup = () => {
       .post("http://localhost:9500/user/signup", formData)
       // console.log("Data............");
       .then((res) => {
-        toast.success("Successfully...")
-        // console.log("Succcess");
+        toast.success("Account Successfully Created..")
+        navigate('/login')
+        console.log("Succcess");
       })
       .catch((err) => {
-        toast.error("something is wrong...")
-        console.log(err);
+      
+          toast.error("something is wrong...")
+          console.log(err);
+       
       });
     // console.log(fullName, email, phone, password,image);
   };
@@ -44,7 +51,7 @@ const Signup = () => {
     <div className="signup-wrapper">
       <div className="signup-box">
         <div className="signup-left">
-          <img src={require(`../components/assets/book-logo.png`)} />
+          <img src={require(`../assets/book-logo.png`)} />
           <h3 className="signup-left-heading">Institute Management System</h3>
           <p>Manage All Data Easy Way...</p>
         </div>
@@ -92,10 +99,11 @@ const Signup = () => {
             {imageUrl && <img src={imageUrl} width="100px" />}
 
             <button type="submit">
-            <i class="fa-solid fa-circle-notch fa-spin"></i>
+            <i className="fa-solid fa-circle-notch fa-spin"></i>
 
             Submit
             </button>
+            <Link to={"/login"}>Login With Account ?</Link>
           </form>
         </div>
       </div>

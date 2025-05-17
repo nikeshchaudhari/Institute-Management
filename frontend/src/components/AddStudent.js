@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const navigate = useNavigate;
+
 const AddStudent = () => {
   const[fullName, setFullName]=useState(" ")
 const [email,setEmail]=useState(" ")
@@ -15,6 +15,7 @@ const [courseId,setCourseId]=useState("")
 const[image,setImage]= useState(null)
 const[imageUrl,setImageUrl]= useState()
 const [courseList,setCourseList]=useState([])
+const navigate = useNavigate();
 const submitHandler=(event)=>{
     event.preventDefault();
 const formData = new FormData();
@@ -38,7 +39,7 @@ axios.post("http://localhost:9500/student/add-student",formData,{
 .then(res=>{
     console.log(res);
     toast.success("Add Student..")
-    navigate('/allstudent')
+    navigate('/dashboard/allstudent')
 
     
 })
@@ -124,7 +125,7 @@ const getCourse =()=>{
                 <option value={course._id}>{course.courseName}</option>
             ))
         }
-       </select>
+       </select>  
          <input required onChange={fileHandler}
           className="form-input"
           type="file"

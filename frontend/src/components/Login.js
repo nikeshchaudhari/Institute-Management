@@ -19,9 +19,14 @@ const Login = () => {
       })
       // console.log("Data............");
       .then((res) => {
-        toast.success( "login Successfully");
+        localStorage.setItem('token',res.data.token)
+        localStorage.setItem('fullName',res.data.fullName)
+        localStorage.setItem('imageUrl',res.data.imageUrl)
+        localStorage.setItem('imageId',res.data.imageId)
+        localStorage.setItem('email',res.data.email)
+        toast.success( "login Successfully")
         navigate("/Dashboard");
-        // console.log("Succcess");
+        console.log(res);
       })
       .catch((err) => {
         toast.error("username and password wrong..");
@@ -34,7 +39,7 @@ const Login = () => {
     <div className="signup-wrapper">
       <div className="signup-box">
         <div className="signup-left">
-          <img src={require(`../components/assets/book-logo.png`)} />
+          <img src={require(`../assets/book-logo.png`)} />
           <h3 className="signup-left-heading">Institute Management System</h3>
           <p>Manage All Data Easy Way...</p>
         </div>
@@ -58,7 +63,7 @@ const Login = () => {
               placeholder="Password "
             ></input>
             <button type="submit">
-              <i class="fa-solid fa-circle-notch fa-spin"></i>
+              <i className="fa-solid fa-circle-notch fa-spin"></i>
               Submit
             </button>
             <Link to={"/signup"}>Create Your Account</Link>

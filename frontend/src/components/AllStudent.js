@@ -27,14 +27,43 @@ getStudent();
     }
    
     return(
-        <div className="course-wrapper">
-      {allStudent.map((student) => (
-        <div className="course-box" key={student._id}>
-          <img className="course-img" src={student.imageUrl} />
-          {student.fullName}
+        <div>
+       {allStudent && allStudent.length>0 && (
+          <div className="std-list-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Profile Pic</th>
+                  <th>Student Name</th>
+                  <th> Phone</th>
+                  <th> Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allStudent.map((student) => (
+                  <tr className="std">
+                    <td>
+                      <img src={student.imageUrl} />
+                    </td>
+
+                    <td>
+                      <p> {student.fullName}</p>
+                    </td>
+                    <td>
+                      {" "}
+                      <p> {student.phone}</p>
+                    </td>
+                    <td>
+                      {" "}
+                      <p>{student.email}</p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
         </div>
-      ))}
-    </div>
     )
 }
 export default AllStudent;
